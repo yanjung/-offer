@@ -1,5 +1,6 @@
 
-给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+1.二叉树的下一个节点
+题目描述：给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
 /*
 struct TreeLinkNode {
     int val;
@@ -57,6 +58,63 @@ public class Solution {
         return null;   //退到了根节点仍没找到，则返回null
     }
 }
+
+2.对称的二叉树
+题目描述：请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+方法1；运行时间：3ms  占用内存：376k
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        if(pRoot == nullptr) return true;
+        
+        return dfs(pRoot->left, pRoot->right);
+    }
+    
+    bool dfs(TreeNode* l, TreeNode* r) {
+        if (l == nullptr && r == nullptr)
+            return true;
+        if (l == nullptr || r == nullptr)   // 注意这个条件
+            return false;
+       
+        if (l->val == r->val)
+            return dfs(l->left, r->right)
+                && dfs(l->right, r->left);
+        else
+            return false;
+    }
+};
+
+方法二：运行时间： <1 ms 占用内存：364K
+class Solution {
+public:
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        return isSymmetrical(pRoot,pRoot);
+    }
+    bool isSymmetrical(TreeNode* pRoot1,TreeNode* pRoot2)
+    {
+        if(pRoot1==nullptr&&pRoot2==nullptr)
+            return true;
+        if(pRoot1==nullptr||pRoot2==nullptr)
+            return false;
+        if(pRoot1->val!=pRoot2->val)
+            return false;
+        return isSymmetrical(pRoot1->left,pRoot2->right)&& isSymmetrical(pRoot1->right,pRoot2->left);
+    }
+ 
+};
+
 
 
 
